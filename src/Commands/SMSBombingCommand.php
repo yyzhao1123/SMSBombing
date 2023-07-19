@@ -12,13 +12,13 @@
 
 namespace Vinhson\SmsBombing\Commands;
 
-use GuzzleHttp\{Client, Pool};
 use Illuminate\Support\Collection;
 use GuzzleHttp\Psr7\{Request, Response};
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SingleCommandApplication;
+use GuzzleHttp\{Client, Exception\ConnectException, Pool};
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
 class SMSBombingCommand extends SingleCommandApplication
@@ -65,8 +65,8 @@ class SMSBombingCommand extends SingleCommandApplication
                     $body = $fn($response->getBody());
                     $output->writeln("<info>索引：{$index}</info>" . " 请求结果：<comment>{$body}</comment>");
                 },
-                'rejected' => function (RequestException $reason, $index) use ($output, $fn): void {
-                    $message = $fn($reason->getMessage());
+                'rejected' => function (RequestException|ConnectException $reason, $index) use ($output, $fn): void {
+                    $message = $reason instanceof ConnectException ? '请求超时， 稍后重试！' : $fn($reason->getMessage());
                     $output->writeln("<info>索引：{$index}</info>" . " 请求结果：<error>{$message}</error>");
                 },
             ]);
