@@ -42,7 +42,7 @@ sms-bombing 136xxxxxxxx --num=5 -l 2 -i 30
 
 # 轰炸效果
 
-```mermaid
+```bash
 sms-bombing 136xxxxxxxx -l 2
 索引：3 请求结果：{"resultCode": 2009, "message": "phone_format_error", "data": null, "redirectUrl": null}
 索引：4 请求结果：{"code":"3","codeInfo":" permission deny"}
