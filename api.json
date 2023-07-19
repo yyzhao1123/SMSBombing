@@ -165,5 +165,82 @@
         "data": {
             "tel": "[phone]"
         }
+    },
+    {
+        "desc": "能链开放平台",
+        "url": "https://openplatformwsgateway.czb365.com/openplatformws/user/send/sendCheckMsgV7/[phone]",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "蘑菇云游",
+        "url": "https://www.moguyouxi.cn/Home/SendVerificationCode",
+        "method": "POST",
+        "header": {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Referer": "https://www.moguyouxi.cn/"
+        },
+        "data": {
+            "phone": "[phone]",
+            "code": ""
+        },
+        "form": ""
+    },
+    {
+        "desc": "奇热漫画",
+        "url": "https://www.qiremanhua.com/passport/send_msg_code",
+        "method": "POST",
+        "header": {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Referer": "https://www.qiremanhua.com/passport/reg/?redirectUri=%2F"
+        },
+        "data": {
+            "phone": "[phone]"
+        },
+        "form": ""
+    },
+    {
+        "desc": "好好住",
+        "url": "https://www.haohaozhu.cn/f/y/api/Login/Identifyingcode",
+        "method": "POST",
+        "header": {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Referer": "https://www.haohaozhu.cn/"
+        },
+        "data": {
+            "phone": "[phone]",
+            "country_code":"86",
+            "identifying_type":"1"
+        },
+        "form": ""
+    },
+    {
+        "desc": "宜搜小说",
+        "url": "https://book.easou.com/ta/phonevcode.m",
+        "method": "POST",
+        "header": {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Referer": "https://book.easou.com/ta/registerByPhone.m?backUrl=%2Fta%2Findex.m"
+        },
+        "data": {
+            "phone": "[phone]"
+        },
+        "form": ""
+    },
+    {
+        "desc": "泛付 PanPay",
+        "url": "https://www.panpay.com/e-bank/verifyPhoneCode.do",
+        "method": "POST",
+        "header": {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "data": {
+            "phone": "[phone]",
+            "tplType": "01",
+            "type": "BIND_PHONE",
+            "phoneCountry": "86"
+        },
+        "form": ""
     }
 ]

