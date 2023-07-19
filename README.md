@@ -34,6 +34,12 @@ sms-bombing 136xxxxxxxx --num=5
 sms-bombing 136xxxxxxxx --num=5 -l 2
 ```
 
+启动 5 次,轰炸一个人的手机号(136xxxxxx), 启动循环轰炸, 轮番轰炸2次，循环间隔30秒
+
+```bash
+sms-bombing 136xxxxxxxx --num=5 -l 2 -i 30
+```
+
 # 轰炸效果
 
 ```mermaid
