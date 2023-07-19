@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * This file is part of james.xue/sms-bombing.
+ *
+ * (c) xiaoxuan6 <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ */
+
+namespace Vinhson\SmsBombing;
+
+use Symfony\Component\Console\Application;
+use Vinhson\SmsBombing\Commands\SMSBombingCommand;
+
+$autoloads = [
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php'
+];
+foreach ($autoloads as $autoload) {
+    if (file_exists($autoload)) {
+        require_once $autoload;
+    }
+}
+
+$app = new Application('sms-bombing', 'v1.0.0');
+$sms = new SMSBombingCommand();
+$app->add($sms);
+$app->setDefaultCommand($sms->getName(), true);
+$app->run();

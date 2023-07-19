@@ -1,0 +1,41 @@
+{
+    "name": "james.xue/sms-bombing",
+    "description": "短信轰炸",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "sms",
+        "bombing",
+        "sms-bombing"
+    ],
+    "homepage": "https://github.com/xiaoxuan6/SMSBombing.git",
+    "autoload": {
+        "psr-4": {
+            "Vinhson\\SmsBombing\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "xiaoxuan6",
+            "email": "1527736751@qq.com"
+        }
+    ],
+    "require-dev": {
+        "rector/rector": "^0.17.5",
+        "friendsofphp/php-cs-fixer": "^3.21"
+    },
+    "require": {
+        "php": "^8.0",
+        "guzzlehttp/guzzle": "^7.7",
+        "symfony/console": "^6.0",
+        "illuminate/collections": "^9.52"
+    },
+    "scripts": {
+        "pint": "vendor/bin/php-cs-fixer fix",
+        "rector": "vendor/bin/rector process --no-diffs --ansi",
+        "fix": [
+            "@rector",
+            "@pint"
+        ]
+    }
+}

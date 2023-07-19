@@ -1,0 +1,169 @@
+[
+    {
+        "desc": "用户到家",
+        "url": "https://user.daojia.com/mobile/getcode?mobile=[phone]&newVersion=1&bu=112",
+        "method": "GET",
+        "header": {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        "data": ""
+    },
+    {
+        "desc": "小叶子app",
+        "url": "https://dss.xiaoyezi.com/student_app/auth/validate_code?mobile=[phone]&country_code=86",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "人人文库",
+        "url": "https://www.renrendoc.com/Reg.aspx/GetUserSMSCode",
+        "method": "POST",
+        "header": {
+            "Content-Type": "application/json; charset=UTF-8",
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": {
+            "userMobile": "[phone]"
+        }
+    },
+    {
+        "desc": "巨人网络",
+        "url": "https://reg.ztgame.com/common/sendmpcode?source=giant_site&nonce=&type=verifycode&token=&refurl=https%3A%2F%2Flogin.ztgame.com%2F&cururl=http%3A%2F%2Freg.ztgame.com%2F&phone=[phone]&mpcode=&pwd=&tname=&idcard=",
+        "method": "GET",
+        "header": {
+            "Referer": "https://reg.ztgame.com/",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": ""
+    },
+    {
+        "desc": "金中网",
+        "url": "https://jrh.financeun.com/Login/sendMessageCode3.html?mobile=[phone]&mbid=197858&check=3",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "永城至敏",
+        "url": "http://101.132.126.166:8080/message/sendVerifyCode?callback=successCallback&mobilePhone=[phone]&t=1589625247333action_type=regist&mobile=[phone]",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "某数图表web(存疑)",
+        "url": "https://dycharts.com/vis/auth/send_signin_sms_code",
+        "method": "POST",
+        "header": "",
+        "data": {
+            "phoneNo": "13809213237"
+        }
+    },
+    {
+        "desc": "加密电话",
+        "url": "https://m.4009991000.com/valNumQry.action",
+        "method": "POST",
+        "header": "",
+        "data": {
+            "appType": "1",
+            "app_id": "5555",
+            "mobileNo": "[phone]",
+            "sig": "16cd52ea74f5ea4a6c2fe80b9a04f8b5",
+            "src": "1",
+            "v": "4.9.2",
+            "validType": "3"
+        }
+    },
+    {
+        "desc": "秘塔写作",
+        "url": "https://xiezuocat.com/verify?type=signup",
+        "method": "POST",
+        "header": "",
+        "data": {
+            "phone": "86-[phone]"
+        }
+    },
+    {
+        "desc": "乐教乐学",
+        "url": "http://id.lejiaolexue.com/api/sendvericode.ashx?phone=[phone]",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "网心云APP",
+        "url": "https://account-box.onethingpcs.com/xluser.core.login/v3/sendsms",
+        "method": "POST",
+        "header": "",
+        "data": {
+            "protocolVersion": "301",
+            "sequenceNo": "1000001",
+            "platformVersion": "10",
+            "isCompressed": "0",
+            "appid": "22017",
+            "clientVersion": "3.15.1",
+            "peerID": "00000000000000000000000000000000",
+            "appName": "ANDROID-com.onethingcloud.android",
+            "sdkVersion": "204500",
+            "devicesign": "div101.095893e2bfa13a199f83691076c8bbb9ab0d01f75c929975048142c2fa38402b",
+            "netWorkType": "WIFI",
+            "providerName": "NONE",
+            "deviceModel": "M2102J2SC",
+            "deviceName": "Xiaomi M2102j2sc",
+            "OSVersion": "11",
+            "creditkey": "",
+            "hl": "zh-CN",
+            "mobile": "[phone]",
+            "register": "0"
+        }
+    },
+    {
+        "desc": "费耘网",
+        "url": "https://www.feeclouds.com/homepage/register/send",
+        "method": "POST",
+        "header": "",
+        "data": {
+            "mobile": "[phone]"
+        }
+    },
+    {
+        "desc": "广东省心理学会",
+        "url": "http://gpa-gd.scnu.edu.cn/member/index/public_send_code.html",
+        "method": "POST",
+        "header": "",
+        "data": {
+            "phone": "[phone]"
+        }
+    },
+    {
+        "desc": "火象",
+        "url": "https://v1.alphazone-data.cn/academy/api/v1/sendsms",
+        "method": "POST",
+        "header": "",
+        "data": {
+            "temp": "1",
+            "phone": "[phone]"
+        }
+    },
+    {
+        "desc": "麦克赛尔数字映像",
+        "url": "https://www.maxell-dm.cn/Code/CheckImage.aspx",
+        "method": "POST",
+        "header": "",
+        "data": {
+            "action": "send",
+            "txtMember_Name": "[phone]"
+        }
+    },
+    {
+        "desc": "企米子",
+        "url": "https://www.xcxui.com/index/register/getcode.html",
+        "method": "POST",
+        "header": "",
+        "data": {
+            "tel": "[phone]"
+        }
+    }
+]
