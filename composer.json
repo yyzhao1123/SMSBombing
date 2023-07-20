@@ -40,5 +40,7 @@
     },
     "bin": [
         "bin/sms-bombing"
-    ]
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
