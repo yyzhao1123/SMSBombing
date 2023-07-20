@@ -27,8 +27,8 @@
     "require": {
         "php": "^8.0",
         "guzzlehttp/guzzle": "^7.5",
-        "symfony/console": "^6.0",
-        "illuminate/collections": "^9.52"
+        "symfony/console": "^4.0 | ^5.0",
+        "illuminate/collections": "^8.83"
     },
     "scripts": {
         "pint": "vendor/bin/php-cs-fixer fix",
