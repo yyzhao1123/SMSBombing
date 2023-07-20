@@ -3,9 +3,7 @@
         "desc": "用户到家",
         "url": "https://user.daojia.com/mobile/getcode?mobile=[phone]&newVersion=1&bu=112",
         "method": "GET",
-        "header": {
-            "Content-Type": "application/json;charset=utf-8"
-        },
+        "header": "",
         "data": ""
     },
     {
@@ -242,5 +240,57 @@
             "phoneCountry": "86"
         },
         "form": ""
+    },
+    {
+        "desc": "鳳凰金融",
+        "url": "https://www.fengwd.com/api/v2/user/loginRegister/captcha/text?version=1.0",
+        "method": "post",
+        "data": {
+            "mobile": "[phone]"
+        },
+        "header": {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+            "Referer": "https://www.fengwd.com/",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Cookie": "fjr_properties=%7B%22abtest%22%3A%22c%22%7D; _ga=GA1.2.1239566769.1689827740; _gid=GA1.2.1620323177.1689827740; _gat=1; Hm_lvt_cca0837a014621d8d933a0b1b2cb0be5=1689827740; Hm_lpvt_cca0837a014621d8d933a0b1b2cb0be5=1689827740; _ga_RQJV198NYX=GS1.2.1689827743.1.0.1689827743.0.0.0"
+        },
+        "form": ""
+    },
+    {
+        "desc": "四川航空",
+        "url": "https://flights.sichuanair.com/3uair/ibe/profile/processSendSMSNew.do?ConversationID=&smsType=REGISTER&mobilePhone=[phone]&verkey=MOBILELOGIN",
+        "method": "get",
+        "data": "",
+        "header": {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+            "Referer": "https://flights.sichuanair.com/3uair/ibe/profile/createProfile.do"
+        }
+    },
+    {
+        "desc": "安徽相亲网",
+        "url": "https://www.ahxiangqin.cn/index.php?c=picker&a=sendmobile",
+        "method": "post",
+        "data": {
+            "type": "reg",
+            "mobile": "[phone]",
+            "imgcode": "validcode",
+            "email": "[phone]",
+            "qq": "[phone]"
+        },
+        "header": {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+            "Referer": "https://www.ahxiangqin.cn/index.php?c=passport&a=reg",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        "form": ""
+    },
+    {
+        "desc": "印象笔记",
+        "url": "https://app.yinxiang.com/SendOneTimePassword.action?sig=b4d74d0018ad5084638ae1333f4c2a61&recipient=[phone]&textotp=",
+        "method": "get",
+        "data": "",
+        "header": {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+        }
     }
 ]

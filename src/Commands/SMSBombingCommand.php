@@ -12,6 +12,7 @@
 
 namespace Vinhson\SmsBombing\Commands;
 
+use Exception;
 use Illuminate\Support\Collection;
 use GuzzleHttp\Psr7\{Request, Response};
 use GuzzleHttp\Exception\RequestException;
@@ -51,7 +52,7 @@ class SMSBombingCommand extends SingleCommandApplication
         $client = new Client(['verify' => false, 'timeout' => $input->getOption('timeout')]);
 
         do {
-            $apis = $num == 'all' ? $apis->toArray() : ($num > $apis->count() ? $apis->toArray() : $apis->random($num)->toArray());
+            $apis = $num == 'all' ? $apis : ($num > $apis->count() ? $apis : $apis->random($num));
             $requests = function () use ($apis, $phone) {
                 $fn = fn ($phone, $url): string|array => str_replace('[phone]', $phone, $url);
                 foreach ($apis as $api) {
@@ -63,18 +64,36 @@ class SMSBombingCommand extends SingleCommandApplication
             };
 
             $fn = fn ($body): string => mb_strlen($body) > 128 ? mb_substr($body, 0, $input->getOption('length')) : $body;
+
+            $outFn = function ($response, $index) use ($output, $apis): void {
+                $desc = $apis->get($index)['desc'];
+                $output->writeln("<info>索引：{$index}</info>" .
+                    PHP_EOL . "请求网站：<comment>{$desc}</comment> " .
+                    PHP_EOL . "请求结果：<comment>{$response}</comment>");
+            };
+
             (new Pool(
                 $client,
                 $requests(),
                 [
                     'concurrency' => 5,
-                    'fulfilled' => function (Response $response, $index) use ($output, $fn): void {
-                        $body = $fn($response->getBody());
-                        $output->writeln("<info>索引：{$index}</info>" . " 请求结果：<comment>{$body}</comment>");
+                    'fulfilled' => function (Response $response, $index) use ($outFn, $fn): void {
+                        $responseBody = $response->getBody();
+                        $body = $fn($responseBody);
+
+                        if (mb_strlen($responseBody) == mb_strlen($body)) {
+                            try {
+                                $body = json_encode(json_decode($responseBody, true), JSON_UNESCAPED_UNICODE);
+                            } catch (Exception) {
+                            }
+                        }
+
+                        $outFn($body, $index);
                     },
-                    'rejected' => function (RequestException|ConnectException $reason, $index) use ($output, $fn): void {
-                        $message = $reason instanceof ConnectException ? '请求超时， 稍后重试！' : $fn($reason->getMessage());
-                        $output->writeln("<info>索引：{$index}</info>" . " 请求结果：<error>{$message}</error>");
+                    'rejected' => function (RequestException|ConnectException $reason, $index) use ($outFn, $fn): void {
+                        $message = $reason instanceof ConnectException ? '请求超时，稍后重试！' : $fn($reason->getMessage());
+
+                        $outFn($message, $index);
                     },
                 ]
             ))
